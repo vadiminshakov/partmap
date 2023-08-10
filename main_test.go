@@ -50,8 +50,24 @@ func BenchmarkStd(b *testing.B) {
 	})
 }
 
+func BenchmarkSyncStd(b *testing.B) {
+	b.Run("set sync map std concurrently", func(b *testing.B) {
+		var m sync.Map
+		var wg sync.WaitGroup
+		for i := 0; i < b.N; i++ {
+			wg.Add(1)
+			i := i
+			go func() {
+				m.Store(fmt.Sprint(i), i)
+				wg.Done()
+			}()
+		}
+		wg.Wait()
+	})
+}
+
 func BenchmarkPartitioned(b *testing.B) {
-	m := NewCache(&hashSumPartitioner{1000}, 1000)
+	m := NewPartitionedMap(&hashSumPartitioner{1000}, 1000)
 	b.Run("set partitioned", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			m.Set(fmt.Sprint(i), i)
