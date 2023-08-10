@@ -5,5 +5,5 @@ Usage:
 ```
 m := partmap.NewPartitionedMapWithDefaultPartitioner(3)
 m.Set("key", 123)
-value, _ := m.Get("1")
+value, _ := m.Get("key")
 ```
