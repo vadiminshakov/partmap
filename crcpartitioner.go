@@ -1,4 +1,4 @@
-package main
+package partmap
 
 import "hash/crc32"
 
