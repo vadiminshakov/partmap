@@ -23,6 +23,16 @@ func NewPartitionedMap(partitioner partitioner, partsnum uint) *PartitionedMap {
 	return &PartitionedMap{partsnum: partsnum, partitions: partitions, finder: partitioner}
 }
 
+func NewPartitionedMapWithDefaultPartitioner(partsnum uint) *PartitionedMap {
+	partitions := make([]*partition, 0, partsnum)
+	for i := 0; i < int(partsnum); i++ {
+		m := make(map[string]any)
+		partitions = append(partitions, &partition{stor: m})
+	}
+
+	return &PartitionedMap{partsnum: partsnum, partitions: partitions, finder: NewHashSumPartitioner(partsnum)}
+}
+
 func (c *PartitionedMap) Set(key string, value any) error {
 	partitionIndex, err := c.finder.Find(key)
 	if err != nil {
