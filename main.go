@@ -2,62 +2,28 @@ package main
 
 import (
 	"errors"
-	"hash/crc32"
-	"sync"
 )
 
-type Partitioner interface {
+type partitioner interface {
 	Find(key string) (uint, error)
 }
 
-type hashSumPartitioner struct {
-	partitionsNum uint
-}
-
-func (h *hashSumPartitioner) Find(key string) (uint, error) {
-	hashSum := crc32.ChecksumIEEE([]byte(key))
-
-	return uint(hashSum) % h.partitionsNum, nil
-}
-
-type Cache struct {
-	n          uint
+type PartitionedMap struct {
+	partsnum   uint
 	partitions []*partition
-	finder     Partitioner
+	finder     partitioner
 }
 
-type partition struct {
-	stor map[string]any
-	sync.RWMutex
-}
-
-func (p *partition) set(key string, value any) {
-	p.Lock()
-	p.stor[key] = value
-	p.Unlock()
-}
-
-func (p *partition) get(key string) (any, bool) {
-	p.RLock()
-	v, ok := p.stor[key]
-	if !ok {
-		p.RUnlock()
-		return nil, false
-	}
-	p.RUnlock()
-	return v, true
-}
-
-func NewCache(partitioner Partitioner, shardsNum uint) *Cache {
-	partitions := make([]*partition, 0, shardsNum)
-	for i := 0; i < int(shardsNum); i++ {
+func NewPartitionedMap(partitioner partitioner, partsnum uint) *PartitionedMap {
+	partitions := make([]*partition, 0, partsnum)
+	for i := 0; i < int(partsnum); i++ {
 		m := make(map[string]any)
 		partitions = append(partitions, &partition{stor: m})
 	}
-	return &Cache{n: shardsNum, partitions: partitions, finder: partitioner}
+	return &PartitionedMap{partsnum: partsnum, partitions: partitions, finder: partitioner}
 }
 
-func (c *Cache) Set(key string, value any) error {
+func (c *PartitionedMap) Set(key string, value any) error {
 	partitionIndex, err := c.finder.Find(key)
 	if err != nil {
 		return err
@@ -68,7 +34,7 @@ func (c *Cache) Set(key string, value any) error {
 
 	return nil
 }
-func (c *Cache) Get(key string) (any, error) {
+func (c *PartitionedMap) Get(key string) (any, error) {
 	partitionIndex, err := c.finder.Find(key)
 	if err != nil {
 		return nil, err
@@ -81,12 +47,4 @@ func (c *Cache) Get(key string) (any, error) {
 	}
 
 	return value, nil
-}
-
-func main() {
-	cache := NewCache(&hashSumPartitioner{partitionsNum: 100}, 100)
-
-	cache.Set("1", 1)
-
-	cache.Set("2", 2)
 }
