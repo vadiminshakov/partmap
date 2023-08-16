@@ -67,7 +67,7 @@ func BenchmarkSyncStd(b *testing.B) {
 }
 
 func BenchmarkPartitioned(b *testing.B) {
-	m := NewPartitionedMap(&hashSumPartitioner{1000}, 1000)
+	m := NewPartitionedMap(&HashSumPartitioner{1000}, 1000)
 	b.Run("set partitioned", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			m.Set(fmt.Sprint(i), i)
