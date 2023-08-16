@@ -17,7 +17,7 @@ BenchmarkPartitioned/set_partitioned_concurrently-12  13536134  408.6 ns/op <-
 Usage:
 
 ```
-m := partmap.NewPartitionedMapWithDefaultPartitioner(3)
+m := partmap.NewPartitionedMapWithDefaultPartitioner(3) // 3 partitions
 m.Set("key", 123)
 value, _ := m.Get("key")
 ```
