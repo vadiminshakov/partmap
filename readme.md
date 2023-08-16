@@ -1,6 +1,9 @@
 **Simple and fast partitioned map**
 
-Faster then writing to std map
+Faster then writing to std map.
+
+[Project motivation](https://medium.com/stackademic/writing-a-partitioned-cache-using-go-map-x3-faster-than-the-standard-map-dbfe704fe4bf).
+
 ```
 go test -bench=. -benchtime=3s
 
