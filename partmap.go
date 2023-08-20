@@ -34,6 +34,14 @@ func NewPartitionedMapWithDefaultPartitioner(partsnum uint) *PartitionedMap {
 }
 
 func (c *PartitionedMap) Set(key string, value any) error {
+	if len(key) == 0 {
+		return ErrEmptyKey
+	}
+	var emptyT any
+	if value == emptyT {
+		return ErrEmptyValue
+	}
+
 	partitionIndex, err := c.finder.Find(key)
 	if err != nil {
 		return err
@@ -45,6 +53,11 @@ func (c *PartitionedMap) Set(key string, value any) error {
 	return nil
 }
 func (c *PartitionedMap) Get(key string) (any, error) {
+	if len(key) == 0 {
+		var emptyT any
+		return emptyT, ErrEmptyKey
+	}
+
 	partitionIndex, err := c.finder.Find(key)
 	if err != nil {
 		return nil, err
