@@ -12,7 +12,7 @@ func FuzzPartMap(f *testing.F) {
 	f.Add("1", 2)
 	f.Fuzz(func(t *testing.T, key string, value int) {
 		err := m.Set(key, value)
-		if err == ErrEmptyKey || err == ErrEmptyValue {
+		if err == ErrEmptyKey {
 			t.Skip()
 		}
 		require.NoError(t, err)
