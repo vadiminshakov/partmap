@@ -23,3 +23,9 @@ func (p *partition) get(key string) (any, bool) {
 	p.RUnlock()
 	return v, true
 }
+
+func (p *partition) del(key string) {
+	p.Lock()
+	delete(p.stor, key)
+	p.Unlock()
+}
