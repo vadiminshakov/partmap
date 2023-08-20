@@ -19,11 +19,21 @@ BenchmarkSyncStd/set_sync_map_std_concurrently-12     2408612   1691 ns/op
 BenchmarkPartitioned/set_partitioned_concurrently-12  13536134  408.6 ns/op <-
 ```
 
-Usage:
+**Usage:**
 
 ```
 m := partmap.NewPartitionedMapWithDefaultPartitioner(3) // 3 partitions
 m.Set("key", 123)
-value, _ := m.Get("key")
+value, err := m.Get("key")
+if err != nil && !errors.Is(err, partmap.ErrNotFound) {
+    panic(err)
+}
+
+println(value) // 123
+
+if err := m.Del("key"); err != nil {
+    panic(err)
+}
 ```
 
+[https://pkg.go.dev/github.com/vadiminshakov/partmap](https://pkg.go.dev/github.com/vadiminshakov/partmap)
