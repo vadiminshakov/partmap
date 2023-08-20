@@ -3,6 +3,8 @@ package partmap
 import "errors"
 
 var (
-	ErrEmptyKey   = errors.New("empty key provided")
-	ErrEmptyValue = errors.New("empty value provided")
+	// ErrEmptyKey is returned when empty key is provided.
+	ErrEmptyKey = errors.New("empty key provided")
+	// ErrNotFound is returned when key is not found in map.
+	ErrNotFound = errors.New("key not found")
 )
