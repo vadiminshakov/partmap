@@ -1,4 +1,4 @@
-module github.com/vadimInshakov/partmap
+module github.com/vadiminshakov/partmap
 
 go 1.20
 
