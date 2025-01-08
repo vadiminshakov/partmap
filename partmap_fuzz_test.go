@@ -6,7 +6,7 @@ import (
 )
 
 func FuzzPartMap(f *testing.F) {
-	m := NewPartitionedMap(NewHashSumPartitioner(1000), 1000)
+	m := NewPartitionedMapWithDefaultPartitioner(1000, 10)
 
 	f.Add("key", 1)
 	f.Add("1", 2)
