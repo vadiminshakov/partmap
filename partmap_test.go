@@ -6,7 +6,7 @@ import (
 )
 
 func TestSetGetDel(t *testing.T) {
-	m := NewPartitionedMap(NewHashSumPartitioner(1000), 1000)
+	m := NewPartitionedMapWithDefaultPartitioner(1000, 10)
 	require.NoError(t, m.Set("1", 1))
 	v, err := m.Get("1")
 	require.NoError(t, err)
@@ -19,17 +19,17 @@ func TestSetGetDel(t *testing.T) {
 }
 
 func TestSetEmptyKey(t *testing.T) {
-	m := NewPartitionedMap(NewHashSumPartitioner(1000), 1000)
+	m := NewPartitionedMapWithDefaultPartitioner(1000, 10)
 	require.ErrorIs(t, m.Set("", 1), ErrEmptyKey)
 }
 
 func TestGetEmptyKey(t *testing.T) {
-	m := NewPartitionedMap(NewHashSumPartitioner(1000), 1000)
+	m := NewPartitionedMapWithDefaultPartitioner(1000, 10)
 	_, err := m.Get("")
 	require.ErrorIs(t, err, ErrEmptyKey)
 }
 
 func TestDelEmptyKey(t *testing.T) {
-	m := NewPartitionedMap(NewHashSumPartitioner(1000), 1000)
+	m := NewPartitionedMapWithDefaultPartitioner(1000, 10)
 	require.ErrorIs(t, m.Del(""), ErrEmptyKey)
 }
