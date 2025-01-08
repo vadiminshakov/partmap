@@ -7,7 +7,7 @@ import (
 )
 
 func BenchmarkStd(b *testing.B) {
-	m := make(map[string]int)
+	m := make(map[string]int, 10)
 	b.Run("set std", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			m[fmt.Sprint(i)] = i
@@ -67,7 +67,7 @@ func BenchmarkSyncStd(b *testing.B) {
 }
 
 func BenchmarkPartitioned(b *testing.B) {
-	m := NewPartitionedMap(NewHashSumPartitioner(1000), 1000)
+	m := NewPartitionedMapWithDefaultPartitioner(100, 10)
 	b.Run("set partitioned", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			m.Set(fmt.Sprint(i), i)
