@@ -43,8 +43,8 @@ func (c *PartitionedMap) Set(key string, value any) error {
 		return err
 	}
 
-	partition := c.partitions[partitionIndex]
-	partition.set(key, value)
+	part := c.partitions[partitionIndex]
+	part.set(key, value)
 
 	return nil
 }
@@ -61,8 +61,8 @@ func (c *PartitionedMap) Get(key string) (any, error) {
 		return nil, err
 	}
 
-	partition := c.partitions[partitionIndex]
-	value, ok := partition.get(key)
+	part := c.partitions[partitionIndex]
+	value, ok := part.get(key)
 	if !ok {
 		return nil, ErrNotFound
 	}
@@ -81,8 +81,8 @@ func (c *PartitionedMap) Del(key string) error {
 		return err
 	}
 
-	partition := c.partitions[partitionIndex]
-	partition.del(key)
+	part := c.partitions[partitionIndex]
+	part.del(key)
 
 	return nil
 }
