@@ -12,20 +12,20 @@ type PartitionedMap struct {
 }
 
 // NewPartitionedMap creates new partitioned map with given partitioner and number of partitions.
-func NewPartitionedMap(partitioner partitioner, partsnum uint) *PartitionedMap {
+func NewPartitionedMap(partitioner partitioner, partsnum uint, partSize uint) *PartitionedMap {
 	partitions := make([]*partition, 0, partsnum)
 	for i := 0; i < int(partsnum); i++ {
-		m := make(map[string]any)
+		m := make(map[string]any, partSize)
 		partitions = append(partitions, &partition{stor: m})
 	}
 	return &PartitionedMap{partsnum: partsnum, partitions: partitions, finder: partitioner}
 }
 
 // NewPartitionedMapWithDefaultPartitioner creates new partitioned map with default partitioner and given number of partitions.
-func NewPartitionedMapWithDefaultPartitioner(partsnum uint) *PartitionedMap {
+func NewPartitionedMapWithDefaultPartitioner(partsnum uint, partSize uint) *PartitionedMap {
 	partitions := make([]*partition, 0, partsnum)
 	for i := 0; i < int(partsnum); i++ {
-		m := make(map[string]any)
+		m := make(map[string]any, partSize)
 		partitions = append(partitions, &partition{stor: m})
 	}
 
