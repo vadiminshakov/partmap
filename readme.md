@@ -22,7 +22,7 @@ BenchmarkPartitioned/set_partitioned_concurrently-12  13536134  408.6 ns/op <-
 **Usage:**
 
 ```
-m := partmap.NewPartitionedMapWithDefaultPartitioner(3) // 3 partitions
+m := partmap.NewPartitionedMapWithDefaultPartitioner(3, 10) // 3 partitions, 10 map size
 
 if err := m.Set("key", 123); err != nil {
     panic(err)
