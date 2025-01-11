@@ -1,6 +1,6 @@
 ![](https://github.com/vadiminshakov/partmap/workflows/tests/badge.svg)
 
-**Simple and fast partitioned map**
+**Simple and fast thread-safe partitioned map**
 
 Faster then writing to std map.
 
