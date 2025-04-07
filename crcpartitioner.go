@@ -10,8 +10,8 @@ func NewHashSumPartitioner(partitionsNum uint) *HashSumPartitioner {
 	return &HashSumPartitioner{partitionsNum: partitionsNum}
 }
 
-func (h *HashSumPartitioner) Find(key string) (uint, error) {
+func (h *HashSumPartitioner) Find(key string) uint {
 	hashSum := crc32.ChecksumIEEE([]byte(key))
 
-	return uint(hashSum) % h.partitionsNum, nil
+	return uint(hashSum) % h.partitionsNum
 }

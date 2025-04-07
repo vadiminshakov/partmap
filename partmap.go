@@ -1,7 +1,7 @@
 package partmap
 
 type partitioner interface {
-	Find(key string) (uint, error)
+	Find(key string) uint
 }
 
 // PartitionedMap is a map that is partitioned into several maps.
@@ -38,12 +38,9 @@ func (c *PartitionedMap) Set(key string, value any) error {
 		return ErrEmptyKey
 	}
 
-	partitionIndex, err := c.finder.Find(key)
-	if err != nil {
-		return err
-	}
-
+	partitionIndex := c.finder.Find(key)
 	part := c.partitions[partitionIndex]
+
 	part.set(key, value)
 
 	return nil
@@ -56,12 +53,9 @@ func (c *PartitionedMap) Get(key string) (any, error) {
 		return emptyT, ErrEmptyKey
 	}
 
-	partitionIndex, err := c.finder.Find(key)
-	if err != nil {
-		return nil, err
-	}
-
+	partitionIndex := c.finder.Find(key)
 	part := c.partitions[partitionIndex]
+
 	value, ok := part.get(key)
 	if !ok {
 		return nil, ErrNotFound
@@ -76,12 +70,9 @@ func (c *PartitionedMap) Del(key string) error {
 		return ErrEmptyKey
 	}
 
-	partitionIndex, err := c.finder.Find(key)
-	if err != nil {
-		return err
-	}
-
+	partitionIndex := c.finder.Find(key)
 	part := c.partitions[partitionIndex]
+
 	part.del(key)
 
 	return nil
