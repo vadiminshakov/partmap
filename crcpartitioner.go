@@ -7,6 +7,10 @@ type HashSumPartitioner struct {
 }
 
 func NewHashSumPartitioner(partitionsNum uint) *HashSumPartitioner {
+	if partitionsNum == 0 {
+		panic("partmap: partitions number must be greater than zero")
+	}
+	
 	return &HashSumPartitioner{partitionsNum: partitionsNum}
 }
 
