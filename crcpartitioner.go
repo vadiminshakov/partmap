@@ -1,17 +1,20 @@
 package partmap
 
-import "hash/crc32"
+import (
+	"fmt"
+	"hash/crc32"
+)
 
 type HashSumPartitioner struct {
 	partitionsNum uint
 }
 
-func NewHashSumPartitioner(partitionsNum uint) *HashSumPartitioner {
+func NewHashSumPartitioner(partitionsNum uint) (*HashSumPartitioner, error) {
 	if partitionsNum == 0 {
-		panic("partmap: partitions number must be greater than zero")
+		return nil, fmt.Errorf("partmap: %w", ErrInvalidPartitions)
 	}
-	
-	return &HashSumPartitioner{partitionsNum: partitionsNum}
+
+	return &HashSumPartitioner{partitionsNum: partitionsNum}, nil
 }
 
 func (h *HashSumPartitioner) Find(key string) uint {
