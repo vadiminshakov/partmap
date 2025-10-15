@@ -1,12 +1,16 @@
 package partmap
 
 import (
-	"github.com/stretchr/testify/require"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func FuzzPartMap(f *testing.F) {
-	m := NewPartitionedMapWithDefaultPartitioner(1000, 10)
+	m, err := NewPartitionedMapWithDefaultPartitioner(1000, 10)
+	if err != nil {
+		f.Fatalf("failed to create partitioned map: %v", err)
+	}
 
 	f.Add("key", 1)
 	f.Add("1", 2)
