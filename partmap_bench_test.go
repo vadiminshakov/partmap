@@ -67,7 +67,7 @@ func BenchmarkSyncStd(b *testing.B) {
 }
 
 func BenchmarkPartitioned(b *testing.B) {
-	m, err := NewPartitionedMapWithDefaultPartitioner(100, 100)
+	m, err := NewPartitionedMapWithDefaultPartitioner(500, 100)
 	if err != nil {
 		b.Fatalf("failed to create partitioned map: %v", err)
 	}

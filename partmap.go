@@ -26,9 +26,9 @@ func NewPartitionedMap(partitioner partitioner, partsnum uint, partSize uint) (*
 	return &PartitionedMap{partsnum: partsnum, partitions: partitions, finder: partitioner}, nil
 }
 
-// NewPartitionedMapWithDefaultPartitioner creates new partitioned map with default partitioner and given number of partitions.
+ // NewPartitionedMapWithDefaultPartitioner creates new partitioned map with default partitioner and given number of partitions.
 func NewPartitionedMapWithDefaultPartitioner(partsnum uint, partSize uint) (*PartitionedMap, error) {
-	partitioner, err := NewHashSumPartitioner(partsnum)
+	partitioner, err := NewXXHashPartitioner(partsnum)
 	if err != nil {
 		return nil, err
 	}

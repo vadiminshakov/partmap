@@ -59,8 +59,8 @@ func TestNewPartitionedMap_ReturnsErrorOnNilPartitioner(t *testing.T) {
 	require.ErrorIs(t, err, ErrNilPartitioner)
 }
 
-func TestHashSumPartitioner_ReturnsErrorOnZeroPartitions(t *testing.T) {
-	p, err := NewHashSumPartitioner(0)
+func TestXXHashPartitioner_ReturnsErrorOnZeroPartitions(t *testing.T) {
+	p, err := NewXXHashPartitioner(0)
 	require.Nil(t, p)
 	require.ErrorIs(t, err, ErrInvalidPartitions)
 }
